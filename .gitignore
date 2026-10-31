@@ -1,0 +1,72 @@
+node_modules/
+dist/
+target/
+.env
+.env.local
+.env.*.local
+.DS_Store
+*.pem
+.p8am
+.tauri/
+!src-tauri/.gitignore
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+tmp/
+.cache/
+
+# IDE specific files
+.settings/
+.project
+.classpath
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Build artifacts
+build/
+.nuxt/
+.next/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories
+.idea/
+.vscode/
+.project
+.settings/
+
+# IDE workbench
+.cache/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._DS_Store
+.LSWatch-0.alf
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

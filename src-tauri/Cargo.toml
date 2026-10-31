@@ -1,0 +1,20 @@
+[package]
+name = "aurora-desktop"
+version = "1.0.0"
+description = "Aurora Desktop - A macOS-inspired Windows 11 desktop customization application"
+authors = ["Aurora Team"]
+license = "MIT"
+repository = "https://github.com/aurora-desktop/aurora-desktop"
+edition = "2021"
+rust-version = "1.75"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[features]
+default = []
