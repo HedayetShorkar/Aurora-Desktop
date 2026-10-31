@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 
 const DigitalClock: React.FC = () => {
   const [time, setTime] = React.useState(new Date());
@@ -150,3 +150,6 @@ const CalendarWidget: React.FC = () => {
 };
 
 export default DigitalClock;
+
+export { DigitalClock, AnalogClock, CalendarWidget };
+

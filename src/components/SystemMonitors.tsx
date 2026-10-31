@@ -1,12 +1,12 @@
-import React from "react";
+﻿import React from "react";
 
 const SystemMonitor: React.FC<{ type: string; theme: any }> = ({ type, theme }) => {
-  const getIcon = (type) => {
+  const getIcon = (type: string) => {
     switch(type) {
-      case "CPU": return "⚡";
-      case "RAM": return "💾";
-      case "GPU": return "🎮";
-      case "STORAGE": return "💿";
+      case "CPU": return "âš¡";
+      case "RAM": return "ðŸ’¾";
+      case "GPU": return "ðŸŽ®";
+      case "STORAGE": return "ðŸ’¿";
       default: return type;
     }
   };
@@ -25,7 +25,7 @@ const SystemMonitor: React.FC<{ type: string; theme: any }> = ({ type, theme }) 
           height: "8px",
           marginTop: "0.5rem",
           borderRadius: "4px",
-          background: `linear-gradient(90deg, ${theme.colors.accent} 0%, ${theme.colors.accent}80 100%)`,
+          background: `linear-gradient(90deg, ${(theme?.colors?.accent ?? "#007AFF")} 0%, ${(theme?.colors?.accent ?? "#007AFF")}80 100%)`,
         }}
       />
     </div>
@@ -36,7 +36,7 @@ const StorageWidget: React.FC = () => {
   return (
     <div className="storage-widget">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span>💿</span>
+        <span>ðŸ’¿</span>
         <span>Storage</span>
       </div>
       
@@ -46,7 +46,7 @@ const StorageWidget: React.FC = () => {
         fontSize: "0.875rem", 
         opacity: 0.7 
       }}>
-        🟦 Free space available
+        ðŸŸ¦ Free space available
       </div>
     </div>
   );
@@ -56,7 +56,7 @@ const NetworkWidget: React.FC = () => {
   return (
     <div className="network-widget">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span>🌐</span>
+        <span>ðŸŒ</span>
         <span>Network</span>
       </div>
       
@@ -66,7 +66,7 @@ const NetworkWidget: React.FC = () => {
         fontSize: "0.875rem", 
         opacity: 0.7 
       }}>
-        {`🟢 Up: ${Math.floor(Math.random() * 100)} Mbps`}
+        {`ðŸŸ¢ Up: ${Math.floor(Math.random() * 100)} Mbps`}
       </div>
     </div>
   );
@@ -86,7 +86,7 @@ const UptimeWidget: React.FC = () => {
   return (
     <div className="uptime-widget">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span>🕐</span>
+        <span>ðŸ•</span>
         <span>Uptime</span>
       </div>
       
@@ -102,3 +102,6 @@ const UptimeWidget: React.FC = () => {
 };
 
 export default SystemMonitor;
+
+export { SystemMonitor, StorageWidget, NetworkWidget, UptimeWidget };
+

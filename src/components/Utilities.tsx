@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 
 const WeatherWidget: React.FC = () => {
   const [weather, setWeather] = React.useState({
@@ -20,11 +20,11 @@ const WeatherWidget: React.FC = () => {
 
   const getWeatherIcon = (condition: string) => {
     switch(condition.toLowerCase()) {
-      case "sunny": return "☀️";
-      case "cloudy": return "☁️";
-      case "rainy": return "🌧️";
-      case "snowy": return "❄️";
-      default: return "☀️";
+      case "sunny": return "â˜€ï¸";
+      case "cloudy": return "â˜ï¸";
+      case "rainy": return "ðŸŒ§ï¸";
+      case "snowy": return "â„ï¸";
+      default: return "â˜€ï¸";
     }
   };
 
@@ -37,7 +37,7 @@ const WeatherWidget: React.FC = () => {
         fontWeight: "600", 
         marginTop: "0.5rem" 
       }}>
-        {weather.temp}°{Math.abs(weather.temp) > 27 ? "C" : "F"}
+        {weather.temp}Â°{Math.abs(weather.temp) > 27 ? "C" : "F"}
       </div>
       
       <div style={{ fontSize: "0.875rem", opacity: 0.6, marginTop: "0.25rem" }}>
@@ -51,14 +51,14 @@ const WeatherWidget: React.FC = () => {
         fontSize: "0.75rem", 
         opacity: 0.5 
       }}>
-        <span>💧 {weather.humidity}% Humidity</span>
+        <span>ðŸ’§ {weather.humidity}% Humidity</span>
       </div>
     </div>
   );
 };
 
 const NotesEditor: React.FC = () => {
-  const [notes, setNotes] = React.useState([{ id: 1, content: "Welcome to Aurora Desktop! 🎨\n\n✨ Drag and drop widgets around.\n⚙️ Customize themes in settings." }]);
+  const [notes, setNotes] = React.useState([{ id: 1, content: "Welcome to Aurora Desktop! ðŸŽ¨\n\nâœ¨ Drag and drop widgets around.\nâš™ï¸ Customize themes in settings." }]);
   
   const addNote = () => {
     setNotes([...notes, { id: Date.now(), content: "" }]);
@@ -82,10 +82,10 @@ const NotesEditor: React.FC = () => {
             resize: "none", 
             border: "none", 
             outline: "none",
-            fontFamily: Segoe UI,
+            fontFamily: 'Segoe UI',
             fontSize: "0.875rem",
           }}
-          rows={note.content.length > 0 ? Math.ceil(note.content.split(n).length / 2) : 3}
+          rows={note.content.length > 0 ? Math.ceil(note.content.split("\n").length / 2) : 3}
         />
       ))}
     </div>
@@ -94,9 +94,9 @@ const NotesEditor: React.FC = () => {
 
 const TodoList: React.FC = () => {
   const [todos, setTodos] = React.useState([
-    { id: 1, text: "Explore Aurora Desktop ✨", completed: false },
-    { id: 2, text: "Customize your widgets 🎨", completed: true },
-    { id: 3, text: "Try different themes 🌈", completed: false },
+    { id: 1, text: "Explore Aurora Desktop âœ¨", completed: false },
+    { id: 2, text: "Customize your widgets ðŸŽ¨", completed: true },
+    { id: 3, text: "Try different themes ðŸŒˆ", completed: false },
   ]);
 
   const addTodo = (text: string) => {
@@ -117,7 +117,7 @@ const TodoList: React.FC = () => {
           border: "none", 
           outline: "none", 
           resize: "none",
-          fontFamily: Segoe UI,
+          fontFamily: 'Segoe UI',
           fontSize: "0.875rem",
           marginBottom: "0.5rem"
         }}
@@ -155,3 +155,7 @@ const TodoList: React.FC = () => {
 };
 
 export default WeatherWidget;
+
+
+export { NotesEditor, TodoList, WeatherWidget };
+

@@ -1,7 +1,9 @@
-import React from "react";
+﻿import React from "react";
+import { DigitalClock, AnalogClock, CalendarWidget } from "./Clocks";
+import { WeatherWidget, NotesEditor, TodoList } from "./Utilities";
+import { SystemMonitor, StorageWidget, NetworkWidget, UptimeWidget } from "./SystemMonitors";
 import { AppShortcuts, MediaControls, BatteryWidget, TextWidget, ImageWidget } from "./ExtraWidgets";
-
-const WidgetGrid: React.FC = () => {
+const WidgetGrid: React.FC<{ theme?: any; isEditMode?: boolean }> = ({ theme, isEditMode }) => {
   return (
     <div 
       className="widget-grid"
@@ -97,3 +99,5 @@ const WidgetGrid: React.FC = () => {
 };
 
 export default WidgetGrid;
+
+

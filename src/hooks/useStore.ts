@@ -1,4 +1,4 @@
-import { create } from "zustand";
+﻿import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface WidgetConfig {
@@ -84,6 +84,7 @@ const defaultThemes: ThemeConfig[] = [
       accent: "#007AFF",
       widgetBackground: "rgba(255,255,255,0.8)",
       widgetForeground: "#1d1d1f",
+      dockBackground: "rgba(255,255,255,0.85)",
     },
     typography: { fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI", fontSize: 14 },
     effects: { blur: true, blurAmount: 20, shadow: true },
@@ -95,6 +96,7 @@ const defaultThemes: ThemeConfig[] = [
       accent: "#0A84FF",
       widgetBackground: "rgba(36,36,38,0.8)",
       widgetForeground: "#ffffff",
+      dockBackground: "rgba(36,36,38,0.9)",
     },
     typography: { fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI", fontSize: 14 },
     effects: { blur: true, blurAmount: 20, shadow: false },
@@ -182,3 +184,4 @@ export const useStore = create<AppState>()(
     }
   )
 );
+

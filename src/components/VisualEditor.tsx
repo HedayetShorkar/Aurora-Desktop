@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { useStore } from "../hooks/useStore";
 
 const VisualEditor: React.FC = () => {
@@ -37,8 +37,8 @@ const VisualEditor: React.FC = () => {
       <div className="edit-controls" style={{ 
         position: "fixed",
         right: "1rem",
-        bottom: isEditMode ? "2rem" : null,
-        top: isEditMode ? "1rem" : null,
+        bottom: isEditMode ? "2rem" : undefined,
+        top: isEditMode ? "1rem" : undefined,
         display: isEditMode ? "flex" : "none",
         flexDirection: "column" as const,
         gap: "0.5rem",
@@ -92,3 +92,4 @@ const VisualEditor: React.FC = () => {
 };
 
 export default VisualEditor;
+
