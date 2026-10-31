@@ -207,3 +207,42 @@ body { overflow-x: hidden; }
   z-index: 1;
 }
 
+
+/* Aurora compact desktop overlay */
+
+html:has(.aurora-overlay),
+body:has(.aurora-overlay),
+body:has(.aurora-overlay) #root {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  min-height: 100% !important;
+}
+
+.aurora-overlay {
+  overflow: auto;
+  height: 100vh;
+}
+
+.aurora-overlay-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.aurora-overlay-grid section {
+  min-width: 0;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(128,128,128,.12);
+}
+
+.aurora-overlay button {
+  border: 1px solid rgba(128,128,128,.25);
+  border-radius: 8px;
+  padding: 6px 10px;
+  background: rgba(128,128,128,.15);
+  color: inherit;
+  cursor: pointer;
+}
+

@@ -1,51 +1,70 @@
-
 {
-  "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Aurora Desktop",
-  "version": "0.1.0",
-  "identifier": "com.aurora.desktop",
-  "build": {
-    "beforeDevCommand": "npm run dev",
-    "devUrl": "http://localhost:5173",
-    "beforeBuildCommand": "npm run build",
-    "frontendDist": "../dist"
-  },
-  "app": {
-    "windows": [
-      {
-        "label": "main",
-        "title": "Aurora Desktop",
-        "width": 1600,
-        "height": 900,
-        "minWidth": 900,
-        "minHeight": 600,
-        "resizable": true,
-        "fullscreen": false,
-        "decorations": true,
-        "transparent": false,
-        "visible": true,
-        "minimizable": true,
-        "maximizable": true,
-        "closable": true,
-        "center": true
-      }
-    ],
-    "security": {
-      "csp": null
-    }
-  },
-  "bundle": {
-    "active": true,
-    "targets": ["nsis"],
-    "shortDescription": "Aurora Desktop",
-    "longDescription": "A macOS-inspired Windows 11 desktop customization application",
-    "copyright": "Aurora Team",
-    "icon": [
-      "icons/32x32.png",
-      "icons/128x128.png",
-      "icons/128x128@2x.png",
-      "icons/icon.ico"
-    ]
-  }
+    "$schema":  "https://schema.tauri.app/config/2",
+    "productName":  "Aurora Desktop",
+    "version":  "0.1.0",
+    "identifier":  "com.aurora.desktop",
+    "build":  {
+                  "beforeDevCommand":  "npm run dev",
+                  "devUrl":  "http://localhost:5173",
+                  "beforeBuildCommand":  "npm run build",
+                  "frontendDist":  "../dist"
+              },
+    "app":  {
+                "windows":  [
+                                {
+                                    "label":  "main",
+                                    "title":  "Aurora Desktop",
+                                    "width":  1600,
+                                    "height":  900,
+                                    "minWidth":  900,
+                                    "minHeight":  600,
+                                    "resizable":  true,
+                                    "fullscreen":  false,
+                                    "decorations":  true,
+                                    "transparent":  false,
+                                    "visible":  false,
+                                    "minimizable":  true,
+                                    "maximizable":  true,
+                                    "closable":  true,
+                                    "center":  true
+                                },
+                                {
+                                    "label":  "overlay",
+                                    "title":  "Aurora Desktop Widgets",
+                                    "url":  "index.html",
+                                    "width":  390,
+                                    "height":  650,
+                                    "x":  40,
+                                    "y":  80,
+                                    "minWidth":  300,
+                                    "minHeight":  350,
+                                    "resizable":  true,
+                                    "decorations":  false,
+                                    "transparent":  true,
+                                    "shadow":  false,
+                                    "alwaysOnTop":  false,
+                                    "skipTaskbar":  true,
+                                    "visible":  true,
+                                    "focus":  false
+                                }
+                            ],
+                "security":  {
+                                 "csp":  null
+                             }
+            },
+    "bundle":  {
+                   "active":  true,
+                   "targets":  [
+                                   "nsis"
+                               ],
+                   "shortDescription":  "Aurora Desktop",
+                   "longDescription":  "A macOS-inspired Windows 11 desktop customization application",
+                   "copyright":  "Aurora Team",
+                   "icon":  [
+                                "icons/32x32.png",
+                                "icons/128x128.png",
+                                "icons/128x128@2x.png",
+                                "icons/icon.ico"
+                            ]
+               }
 }
-

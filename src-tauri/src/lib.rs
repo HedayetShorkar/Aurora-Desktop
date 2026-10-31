@@ -1,4 +1,7 @@
-﻿use serde::Serialize;
+﻿use tauri::menu::{Menu, MenuItem};
+use tauri::tray::TrayIconBuilder;
+use tauri::Manager;
+use serde::Serialize;
 use std::sync::Mutex;
 use std::time::Instant;
 use sysinfo::{Disks, Networks, System};
@@ -113,6 +116,66 @@ fn get_system_metrics(
 pub fn run() {
     tauri::Builder::default()
         .manage(Mutex::new(MonitorState::new()))
+        .setup(|app| {
+            let show = MenuItem::with_id(
+                app, "show", "Show Desktop Widgets", true, None::<&str>
+            )?;
+            let hide = MenuItem::with_id(
+                app, "hide", "Hide Desktop Widgets", true, None::<&str>
+            )?;
+            let settings = MenuItem::with_id(
+                app, "settings", "Open Control Center", true, None::<&str>
+            )?;
+            let quit = MenuItem::with_id(
+                app, "quit", "Exit Aurora Desktop", true, None::<&str>
+            )?;
+
+            let menu = Menu::with_items(
+                app, &[&show, &hide, &settings, &quit]
+            )?;
+
+            TrayIconBuilder::new()
+                .icon(
+                    app.default_window_icon()
+                        .expect("Application icon missing")
+                        .clone()
+                )
+                .menu(&menu)
+                .show_menu_on_left_click(false)
+                .on_menu_event(|app, event| {
+                    match event.id().as_ref() {
+                        "show" => {
+                            if let Some(w) = app.get_webview_window("overlay") {
+                                let _ = w.show();
+                            }
+                        }
+                        "hide" => {
+                            if let Some(w) = app.get_webview_window("overlay") {
+                                let _ = w.hide();
+                            }
+                        }
+                        "settings" => {
+                            if let Some(w) = app.get_webview_window("main") {
+                                let _ = w.show();
+                                let _ = w.set_focus();
+                            }
+                        }
+                        "quit" => {
+                            app.exit(0);
+                        }
+                        _ => {}
+                    }
+                })
+                .build(app)?;
+
+            Ok(())
+        })
+        .on_window_event(|window, event| {
+            if let tauri::WindowEvent::CloseRequested { api, .. } = event {
+                api.prevent_close();
+                let _ = window.hide();
+            }
+        })
         .invoke_handler(tauri::generate_handler![
             get_app_state,
             get_system_metrics
@@ -120,3 +183,4 @@ pub fn run() {
         .run(tauri::generate_context!())
         .expect("error while running Aurora Desktop");
 }
+
