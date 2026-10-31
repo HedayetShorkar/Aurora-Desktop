@@ -52,6 +52,7 @@ interface AppState {
   widgets: WidgetConfig[];
   theme: ThemeConfig;
   selectedTheme: string;
+  setTheme: (name: string) => void;
   dockPosition: DockPosition;
   isEditMode: boolean;
   layouts: Layout[];
@@ -77,6 +78,25 @@ const defaultWidgets: WidgetConfig[] = [
 ];
 
 const defaultThemes: ThemeConfig[] = [
+  {
+    name: "Frosted Glass",
+    colors: {
+      background: { start: "#8ca9d6", end: "#c9a7d8" },
+      accent: "#6366f1",
+      widgetBackground: "rgba(255,255,255,0.28)",
+      widgetForeground: "#172033",
+      dockBackground: "rgba(255,255,255,0.35)",
+    },
+    typography: {
+      fontFamily: "Segoe UI",
+      fontSize: 14
+    },
+    effects: {
+      blur: true,
+      blurAmount: 30,
+      shadow: true
+    },
+  },
   {
     name: "Aurora Light",
     colors: {
@@ -121,6 +141,12 @@ export const useStore = create<AppState>()(
       layouts: [],
       activeLayout: null,
       themes: defaultThemes,
+      setTheme: (name) => {
+        const next = defaultThemes.find(t => t.name === name);
+        if (next) {
+          set({ theme: next, selectedTheme: next.name });
+        }
+      },
 
       addWidget: (type, position) => {
         const newWidget: WidgetConfig = {
@@ -177,6 +203,7 @@ export const useStore = create<AppState>()(
       partialize: (state) => ({
         widgets: state.widgets,
         theme: state.theme,
+        selectedTheme: state.selectedTheme,
         dockPosition: state.dockPosition,
         layouts: state.layouts,
         activeLayout: state.activeLayout,
@@ -184,4 +211,5 @@ export const useStore = create<AppState>()(
     }
   )
 );
+
 

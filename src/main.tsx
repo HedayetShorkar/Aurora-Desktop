@@ -1,3 +1,4 @@
+﻿import "./aurora.css";
 import { createRoot } from "react-dom/client";
 import React from "react";
 import App from "./App";
@@ -18,3 +19,4 @@ if (container) {
 
 // Export for Tauri integration
 export { setupTauri };
+

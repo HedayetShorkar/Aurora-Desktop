@@ -1,32 +1,81 @@
-import React from "react";
+﻿import React from "react";
+import { useStore } from "../hooks/useStore";
 
 interface SettingsPanelProps {
   onClose: () => void;
 }
 
 const SettingsPanel: React.FC<SettingsPanelProps> = ({ onClose }) => {
+  const theme = useStore(s => s.theme);
+  const setTheme = useStore(s => s.setTheme);
+  const dark = theme.name === "Aurora Dark";
+
   return (
-    <div className="settings-overlay" onClick={onClose} style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.3)", zIndex: 100 }}>
-      <div className="settings-panel" onClick={(e) => e.stopPropagation()} style={{ position: "fixed", right: "2rem", top: "2rem", width: "360px", maxHeight: "80vh", overflowY: "auto", background: "#ffffff", borderRadius: "16px", boxShadow: "0 10px 40px rgba(0,0,0,0.2)" }}>
-        <div style={{ padding: "1rem", borderBottom: "1px solid #e5e7eb" }}>
-          <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: "600" }}>Settings</h2>
-        </div>
-        <div style={{ padding: "1rem" }}>
-          <section style={{ marginBottom: "1.5rem" }}>
-            <h3 style={{ fontSize: "0.875rem", fontWeight: "600", color: "#6b7280", marginBottom: "0.5rem" }}>Appearance</h3>
-            <div style={{ marginBottom: "1rem" }}>
-              <label style={{ display: "block", fontSize: "0.875rem", marginBottom: "0.5rem" }}>Theme Color</label>
-              <select style={{ width: "100%", padding: "0.5rem", borderRadius: "6px", border: "1px solid #e5e7eb" }}>
-                <option>Aurora Light</option>
-                <option>Aurora Dark</option>
-                <option>Frosted Glass</option>
-              </select>
-            </div>
-          </section>
-        </div>
-        <div style={{ padding: "1rem", borderTop: "1px solid #e5e7eb", display: "flex", justifyContent: "flex-end" }}>
-          <button onClick={onClose} style={{ padding: "0.5rem 1.5rem", borderRadius: "8px", border: "none", background: "#007AFF", color: "#ffffff", fontWeight: "500", cursor: "pointer" }}>Done</button>
-        </div>
+    <div
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,.35)",
+        zIndex: 1000
+      }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          position: "absolute",
+          top: 32,
+          right: 32,
+          width: 360,
+          maxWidth: "calc(100vw - 40px)",
+          padding: 24,
+          borderRadius: 20,
+          background: theme.colors.widgetBackground,
+          color: theme.colors.widgetForeground,
+          backdropFilter: "blur(35px)",
+          WebkitBackdropFilter: "blur(35px)",
+          border: "1px solid rgba(128,128,128,.25)",
+          boxShadow: "0 16px 50px rgba(0,0,0,.25)"
+        }}
+      >
+        <h2 style={{ marginTop: 0 }}>Settings</h2>
+        <label htmlFor="aurora-theme">
+          Appearance
+        </label>
+        <select
+          id="aurora-theme"
+          value={theme.name}
+          onChange={e => setTheme(e.target.value)}
+          style={{
+            display: "block",
+            width: "100%",
+            marginTop: 12,
+            padding: 12,
+            borderRadius: 10,
+            border: "1px solid rgba(128,128,128,.3)",
+            background: dark ? "#29292e" : "#ffffff",
+            color: dark ? "#ffffff" : "#172033"
+          }}
+        >
+          <option value="Aurora Light">Light</option>
+          <option value="Aurora Dark">Dark</option>
+          <option value="Frosted Glass">Frosted Glass</option>
+        </select>
+
+        <button
+          onClick={onClose}
+          style={{
+            marginTop: 24,
+            padding: "10px 24px",
+            borderRadius: 10,
+            border: "none",
+            background: theme.colors.accent,
+            color: "#ffffff",
+            cursor: "pointer"
+          }}
+        >
+          Done
+        </button>
       </div>
     </div>
   );

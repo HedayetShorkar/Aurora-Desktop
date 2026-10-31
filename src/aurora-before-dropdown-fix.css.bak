@@ -1,0 +1,169 @@
+﻿* { box-sizing: border-box; }
+
+html, body, #root {
+  margin: 0;
+  min-height: 100%;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body { overflow-x: hidden; }
+
+.aurora-app {
+  min-height: 100vh;
+  color: #1d2939;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 28px;
+  background: rgba(255,255,255,.5);
+  border-bottom: 1px solid rgba(100,116,139,.15);
+}
+
+.header-left, .header-center, .header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-main {
+  padding-bottom: 110px;
+}
+
+.widget-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)) !important;
+  gap: 20px !important;
+  padding: 24px !important;
+  align-items: stretch;
+}
+
+.widget-container {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 190px;
+  padding: 20px;
+  overflow: hidden;
+  background: rgba(255,255,255,.78);
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: 20px;
+  box-shadow: 0 8px 28px rgba(15,23,42,.07);
+}
+
+.widget-container > * {
+  max-width: 100%;
+}
+
+.analog-clock {
+  width: 140px;
+  height: 140px;
+  margin: auto;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: 14px;
+}
+
+.notes-editor textarea,
+.todo-list textarea {
+  width: 100%;
+  min-height: 100px;
+  background: transparent;
+}
+
+.shortcuts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.dock { z-index: 100; }
+
+@media (max-width: 700px) {
+  .app-header { flex-wrap: wrap; }
+  .widget-grid { grid-template-columns: 1fr !important; }
+}
+
+/* Aurora dynamic theme */
+.aurora-app {
+  color: var(--aurora-text, #1d2939);
+}
+
+.aurora-app .app-header {
+  background: var(--aurora-surface, rgba(255,255,255,.5));
+  backdrop-filter: blur(var(--aurora-blur, 16px));
+  -webkit-backdrop-filter: blur(var(--aurora-blur, 16px));
+}
+
+.aurora-app .widget-container {
+  background: var(--aurora-surface, rgba(255,255,255,.78));
+  color: var(--aurora-text, #1d2939);
+  border: 1px solid var(--aurora-border, rgba(255,255,255,.5));
+  backdrop-filter: blur(var(--aurora-blur, 16px));
+  -webkit-backdrop-filter: blur(var(--aurora-blur, 16px));
+}
+
+.aurora-app button,
+.aurora-app input,
+.aurora-app textarea {
+  font-family: inherit;
+}
+
+.aurora-app .widget-container input,
+.aurora-app .widget-container textarea {
+  color: var(--aurora-text, #1d2939);
+}
+
+
+/* Phase 4: Reliable theme overrides */
+
+.aurora-app {
+  color: var(--aurora-text) !important;
+  transition: background .25s ease, color .25s ease;
+}
+
+.aurora-app .app-header {
+  background: var(--aurora-surface) !important;
+  color: var(--aurora-text) !important;
+  border-color: var(--aurora-border) !important;
+}
+
+.aurora-app .widget-grid .widget-container {
+  background: var(--aurora-surface) !important;
+  color: var(--aurora-text) !important;
+  border-color: var(--aurora-border) !important;
+  backdrop-filter: blur(var(--aurora-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--aurora-blur)) !important;
+  transition: background .25s ease, color .25s ease;
+}
+
+.aurora-app .widget-container textarea,
+.aurora-app .widget-container input:not([type="checkbox"]) {
+  color: var(--aurora-text) !important;
+  background: transparent;
+}
+
+.aurora-app[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+.aurora-app[data-theme="dark"] .widget-container {
+  box-shadow: 0 8px 28px rgba(0,0,0,.25);
+}
+
+.aurora-app[data-theme="glass"] .widget-container {
+  box-shadow: 0 12px 32px rgba(30,40,80,.12);
+  border: 1px solid rgba(255,255,255,.45) !important;
+}
+
+.aurora-app[data-theme="glass"] .app-header {
+  backdrop-filter: blur(30px) saturate(150%);
+  -webkit-backdrop-filter: blur(30px) saturate(150%);
+}
+

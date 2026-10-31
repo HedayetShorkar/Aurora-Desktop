@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import WidgetGrid from "./components/WidgetGrid";
 import Dock from "./components/Dock";
 import ThemeSelector from "./components/ThemeSelector";
@@ -11,9 +11,25 @@ function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   return (
-    <div className="aurora-app" style={{ 
+    <div
+      className="aurora-app"
+      data-theme={
+        theme.name === "Aurora Dark" ? "dark" :
+        theme.name === "Frosted Glass" ? "glass" : "light"
+      }
+      style={{ 
       background: `linear-gradient(135deg, ${theme.colors.background.start} 0%, ${theme.colors.background.end} 100%)`,
       minHeight: "100vh",
+      color: theme.colors.widgetForeground,
+      fontFamily: theme.typography.fontFamily,
+      ["--aurora-surface" as string]: theme.colors.widgetBackground,
+      ["--aurora-text" as string]: theme.colors.widgetForeground,
+      ["--aurora-border" as string]: theme.name === "Aurora Dark"
+        ? "rgba(255,255,255,.12)"
+        : "rgba(255,255,255,.5)",
+      ["--aurora-blur" as string]: theme.effects.blur
+        ? `${theme.effects.blurAmount}px`
+        : "0px",
     }}>
       {/* Top bar */}
       <header className="app-header">
@@ -48,7 +64,7 @@ function App() {
               cursor: "pointer",
             }}
           >
-            ⚙️
+            âš™ï¸
           </button>
         </div>
       </header>
@@ -77,3 +93,5 @@ function App() {
 }
 
 export default App;
+
+

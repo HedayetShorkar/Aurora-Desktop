@@ -1,161 +1,115 @@
 ﻿import React from "react";
 
-const WeatherWidget: React.FC = () => {
-  const [weather, setWeather] = React.useState({
-    temp: Math.floor(Math.random() * 30 + 10),
-    condition: ["Sunny", "Cloudy", "Rainy", "Snowy"][Math.floor(Math.random() * 4)],
-    humidity: Math.floor(Math.random() * 60 + 20)
+export const WeatherWidget: React.FC = () => (
+  <div className="weather-widget">
+    <div style={{ fontSize: 28 }}>{"\u2600\uFE0F"}</div>
+    <div style={{ fontSize: 30, fontWeight: 700 }}>Weather</div>
+    <div style={{ opacity: .65, marginTop: 8 }}>
+      Live weather is not connected yet.
+    </div>
+    <div style={{ fontSize: 12, opacity: .5, marginTop: 8 }}>
+      No simulated temperature displayed
+    </div>
+  </div>
+);
+
+export const NotesEditor: React.FC = () => {
+  const [note, setNote] = React.useState(() => {
+    try {
+      return localStorage.getItem("aurora-notes") ??
+        "Welcome to Aurora Desktop!";
+    } catch {
+      return "Welcome to Aurora Desktop!";
+    }
   });
 
   React.useEffect(() => {
-    const timer = setInterval(() => {
-      setWeather(prev => ({
-        temp: prev.temp + Math.floor(Math.random() * 10 - 5),
-        condition: prev.condition,
-        humidity: prev.humidity + Math.floor(Math.random() * 10 - 5)
-      }));
-    }, 30000); // Update weather every 30 seconds
-    return () => clearInterval(timer);
-  }, []);
-
-  const getWeatherIcon = (condition: string) => {
-    switch(condition.toLowerCase()) {
-      case "sunny": return "â˜€ï¸";
-      case "cloudy": return "â˜ï¸";
-      case "rainy": return "ðŸŒ§ï¸";
-      case "snowy": return "â„ï¸";
-      default: return "â˜€ï¸";
-    }
-  };
+    try { localStorage.setItem("aurora-notes", note); }
+    catch { /* Storage unavailable */ }
+  }, [note]);
 
   return (
-    <div className="weather-widget">
-      <div style={{ fontSize: "2.5rem" }}>{getWeatherIcon(weather.condition)}</div>
-      
-      <div style={{ 
-        fontSize: "3rem", 
-        fontWeight: "600", 
-        marginTop: "0.5rem" 
-      }}>
-        {weather.temp}Â°{Math.abs(weather.temp) > 27 ? "C" : "F"}
-      </div>
-      
-      <div style={{ fontSize: "0.875rem", opacity: 0.6, marginTop: "0.25rem" }}>
-        {weather.condition}
-      </div>
-
-      <div style={{ 
-        display: "flex", 
-        justifyContent: "space-between", 
-        marginTop: "1rem", 
-        fontSize: "0.75rem", 
-        opacity: 0.5 
-      }}>
-        <span>ðŸ’§ {weather.humidity}% Humidity</span>
-      </div>
+    <div className="notes-editor" style={{ height: "100%" }}>
+      <textarea
+        aria-label="Notes"
+        value={note}
+        onChange={e => setNote(e.target.value)}
+        style={{
+          width: "100%", minHeight: 145, height: "100%",
+          resize: "vertical", border: "none",
+          outline: "none", background: "transparent",
+          color: "inherit", fontFamily: "Segoe UI"
+        }}
+      />
     </div>
   );
 };
 
-const NotesEditor: React.FC = () => {
-  const [notes, setNotes] = React.useState([{ id: 1, content: "Welcome to Aurora Desktop! ðŸŽ¨\n\nâœ¨ Drag and drop widgets around.\nâš™ï¸ Customize themes in settings." }]);
-  
-  const addNote = () => {
-    setNotes([...notes, { id: Date.now(), content: "" }]);
-  };
+type Todo = { id: number; text: string; completed: boolean };
 
-  const updateNote = (id: number, content: string) => {
-    setNotes(notes.map(note => 
-      note.id === id ? { ...note, content } : note
-    ));
+export const TodoList: React.FC = () => {
+  const [todos, setTodos] = React.useState<Todo[]>(() => {
+    try {
+      const saved = localStorage.getItem("aurora-todos");
+      return saved ? JSON.parse(saved) as Todo[] : [];
+    } catch {
+      return [];
+    }
+  });
+  const [draft, setDraft] = React.useState("");
+
+  React.useEffect(() => {
+    try { localStorage.setItem("aurora-todos", JSON.stringify(todos)); }
+    catch { /* Storage unavailable */ }
+  }, [todos]);
+
+  const addTodo = () => {
+    const text = draft.trim();
+    if (!text) return;
+    setTodos(prev => [...prev, {
+      id: Date.now(), text, completed: false
+    }]);
+    setDraft("");
   };
 
   return (
-    <div className="notes-editor">
-      {notes.map((note) => (
-        <textarea
-          key={note.id}
-          value={note.content}
-          onChange={(e) => updateNote(note.id, e.target.value)}
-          style={{ 
-            flex: 1, 
-            resize: "none", 
-            border: "none", 
-            outline: "none",
-            fontFamily: 'Segoe UI',
-            fontSize: "0.875rem",
+    <div className="todo-list">
+      <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+        <input
+          aria-label="New task"
+          value={draft}
+          onChange={e => setDraft(e.target.value)}
+          onKeyDown={e => { if (e.key === "Enter") addTodo(); }}
+          placeholder="Add a task..."
+          style={{
+            minWidth: 0, flex: 1, padding: 8,
+            borderRadius: 8, border: "1px solid #cbd5e1"
           }}
-          rows={note.content.length > 0 ? Math.ceil(note.content.split("\n").length / 2) : 3}
         />
+        <button onClick={addTodo}>Add</button>
+      </div>
+      {todos.map(todo => (
+        <div key={todo.id} style={{
+          display: "flex", gap: 8,
+          alignItems: "center", marginBottom: 8
+        }}>
+          <input type="checkbox" checked={todo.completed}
+            onChange={() => setTodos(prev => prev.map(t =>
+              t.id === todo.id ? { ...t, completed: !t.completed } : t
+            ))} />
+          <span style={{
+            flex: 1,
+            textDecoration: todo.completed ? "line-through" : "none"
+          }}>
+            {todo.text}
+          </span>
+          <button aria-label="Delete task" onClick={() =>
+            setTodos(prev => prev.filter(t => t.id !== todo.id))
+          }>×</button>
+        </div>
       ))}
     </div>
   );
 };
 
-const TodoList: React.FC = () => {
-  const [todos, setTodos] = React.useState([
-    { id: 1, text: "Explore Aurora Desktop âœ¨", completed: false },
-    { id: 2, text: "Customize your widgets ðŸŽ¨", completed: true },
-    { id: 3, text: "Try different themes ðŸŒˆ", completed: false },
-  ]);
-
-  const addTodo = (text: string) => {
-    setTodos([...todos, { 
-      id: Date.now(), 
-      text, 
-      completed: false 
-    }]);
-  };
-
-  return (
-    <div className="todo-list">
-      <textarea
-        placeholder="Add a new task..."
-        onChange={(e) => addTodo(e.target.value)}
-        style={{ 
-          width: "100%", 
-          border: "none", 
-          outline: "none", 
-          resize: "none",
-          fontFamily: 'Segoe UI',
-          fontSize: "0.875rem",
-          marginBottom: "0.5rem"
-        }}
-      />
-      
-      <div style={{ maxHeight: "60%" }}>
-        {todos.map((todo) => (
-          <div 
-            key={todo.id}
-            className="todo-item"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "0.5rem",
-              opacity: todo.completed ? 0.5 : 1,
-              textDecoration: todo.completed ? "line-through" : "none",
-            }}
-          >
-            <input 
-              type="checkbox" 
-              checked={todo.completed} 
-              onChange={() => {
-                setTodos(todos.map(t => 
-                  t.id === todo.id ? { ...t, completed: !t.completed } : t
-                ));
-              }}
-              style={{ marginRight: "0.5rem", cursor: "pointer" }}
-            />
-            <span>{todo.text}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
 export default WeatherWidget;
-
-
-export { NotesEditor, TodoList, WeatherWidget };
-

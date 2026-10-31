@@ -1,107 +1,53 @@
 ﻿import React from "react";
 
-const SystemMonitor: React.FC<{ type: string; theme: any }> = ({ type, theme }) => {
-  const getIcon = (type: string) => {
-    switch(type) {
-      case "CPU": return "âš¡";
-      case "RAM": return "ðŸ’¾";
-      case "GPU": return "ðŸŽ®";
-      case "STORAGE": return "ðŸ’¿";
-      default: return type;
-    }
-  };
-
-  return (
-    <div className="system-monitor">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span style={{ fontSize: "1.25rem" }}>{getIcon(type)}</span>
-        <span>{type}</span>
-      </div>
-      
-      {/* Mock progress bar - in production would use actual system metrics */}
-      <div 
-        className="progress-bar"
-        style={{
-          height: "8px",
-          marginTop: "0.5rem",
-          borderRadius: "4px",
-          background: `linear-gradient(90deg, ${(theme?.colors?.accent ?? "#007AFF")} 0%, ${(theme?.colors?.accent ?? "#007AFF")}80 100%)`,
-        }}
-      />
+export const SystemMonitor: React.FC<{
+  type: string; theme?: any
+}> = ({ type }) => (
+  <div className="system-monitor">
+    <div style={{ fontSize: 22 }}>{"\u2699\uFE0F"} {type}</div>
+    <div style={{ opacity: .6, marginTop: 12 }}>
+      Live monitoring not connected
     </div>
-  );
-};
+  </div>
+);
 
-const StorageWidget: React.FC = () => {
-  return (
-    <div className="storage-widget">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span>ðŸ’¿</span>
-        <span>Storage</span>
-      </div>
-      
-      {/* Mock storage usage */}
-      <div style={{ 
-        marginTop: "0.75rem", 
-        fontSize: "0.875rem", 
-        opacity: 0.7 
-      }}>
-        ðŸŸ¦ Free space available
-      </div>
-    </div>
-  );
-};
+export const StorageWidget: React.FC = () => (
+  <div className="storage-widget">
+    <strong>{"\uD83D\uDCBE"} Storage</strong>
+    <p style={{ opacity: .6 }}>Disk information unavailable</p>
+  </div>
+);
 
-const NetworkWidget: React.FC = () => {
-  return (
-    <div className="network-widget">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span>ðŸŒ</span>
-        <span>Network</span>
-      </div>
-      
-      {/* Mock network speed */}
-      <div style={{ 
-        marginTop: "0.75rem", 
-        fontSize: "0.875rem", 
-        opacity: 0.7 
-      }}>
-        {`ðŸŸ¢ Up: ${Math.floor(Math.random() * 100)} Mbps`}
-      </div>
-    </div>
-  );
-};
+export const NetworkWidget: React.FC = () => (
+  <div className="network-widget">
+    <strong>{"\uD83C\uDF10"} Network</strong>
+    <p style={{ opacity: .6 }}>Live network speed unavailable</p>
+  </div>
+);
 
-const UptimeWidget: React.FC = () => {
-  const [uptime, setUpTime] = React.useState(new Date());
-  
+export const UptimeWidget: React.FC = () => {
+  const [seconds, setSeconds] = React.useState(0);
+
   React.useEffect(() => {
-    const timer = setInterval(() => setUpTime(new Date()), 1000);
-    return () => clearInterval(timer);
+    const started = Date.now();
+    const id = setInterval(() => {
+      setSeconds(Math.floor((Date.now() - started) / 1000));
+    }, 1000);
+    return () => clearInterval(id);
   }, []);
 
-  const duration = Math.floor((new Date().getTime() - uptime.getTime()) / 1000);
-  const days = Math.floor(duration / (1000 * 60 * 60 * 24));
-  
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
   return (
     <div className="uptime-widget">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span>ðŸ•</span>
-        <span>Uptime</span>
-      </div>
-      
-      <div style={{ 
-        marginTop: "0.75rem", 
-        fontSize: "1rem", 
-        fontWeight: "500" 
-      }}>
-        {days}d+
+      <strong>{"\u23F1\uFE0F"} App Session</strong>
+      <div style={{ fontSize: 24, marginTop: 12 }}>
+        {hours}h {minutes}m {secs}s
       </div>
     </div>
   );
 };
 
 export default SystemMonitor;
-
-export { SystemMonitor, StorageWidget, NetworkWidget, UptimeWidget };
-
